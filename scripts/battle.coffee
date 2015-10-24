@@ -54,6 +54,10 @@ module.exports = (robot) ->
     patientName = res.match[1].replace('@', '').replace(':', '')
 
     if checkEntry(doctorName) && checkEntry(patientName)
+      if doctorName == patientName
+        res.send "Can't hoimi yourself"
+        return
+
       beforeHP = getHP(patientName)
       recoveryPoint = randomPoint(MAX_RECOVERY_POINT)
       afterHP = beforeHP + recoveryPoint
