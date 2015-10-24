@@ -19,9 +19,10 @@ module.exports = (robot) ->
   robot.hear /^attack (.*)$/i, (res) ->
     myName = res.message.user.name
     enemyName = res.match[1]
-    attackPoint = Math.ceil(Math.random() * MAX_ATTACK_POINT)
+
     _beforeHP = robot.brain.get(enemyName)
     beforeHP = if toString.call(_beforeHP) == "[object Null]" then DEFAULT_HP else _beforeHP
+    attackPoint = Math.ceil(Math.pow(Math.random(), 20) * MAX_ATTACK_POINT)
     afterHP = beforeHP - attackPoint
     robot.brain.set enemyName, afterHP
     res.send "#{myName} attack #{attackPoint}"
