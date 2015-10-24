@@ -17,21 +17,38 @@ module.exports = (robot) ->
       temp[key] = clone(obj[key])
     temp
 
-  loadedPatterns = []
+  loadReaction = () ->
+    reactions = {}
+    reactionsCount = robot.brain.get('reactions') * 1 or 0
+    for i in [0..reactionsCount - 1]
+      reactions["reactionPatterns#{i}"] = (robot.brain.get("reactionPatterns#{i}"))
+      reactions["reactionMessages#{i}"] = (robot.brain.get("reactionMessages#{i}"))
+    reactions
+
+  loadedPatterns = {}
   reloadPattern = () ->
-    reactions = robot.brain.get('reactions') or []
-    for key, value of reactions
-      if !loadedPatterns[key]
-        loadedPatterns[key] = value
-        robot.hear ///#{key}///, (res) ->
-          res.send clone(value)
+    reactions = robot.brain.get('reactions') * 1 or 0
+    if reactions > 0
+      for i in [0..reactions - 1]
+        k = robot.brain.get("reactionPatterns#{i}")
+        v = robot.brain.get("reactionMessages#{i}")
+        if !loadedPatterns[k]
+          loadedPatterns[k] = true
+          register = () ->
+            s = v
+            robot.hear ///#{k}///, (res) ->
+              res.send s
+          register()
+
 
   robot.respond /react --list/i, (res) ->
-    reactions = robot.brain.get('reactions') or []
-    if Object.keys(reactions).length > 0
+    reactions = robot.brain.get('reactions') * 1 or 0
+    if reactions > 0
       res.reply "=== begin of list ==="
-      for key, value of reactions
-        res.reply "#{key} -> #{value}"
+      for i in [0..reactions - 1]
+        k = robot.brain.get("reactionPatterns#{i}")
+        v = robot.brain.get("reactionMessages#{i}")
+        res.reply "#{k} -> #{v}"
       res.reply "=== end of list ==="
     else
       res.reply 'no entry'
@@ -40,14 +57,23 @@ module.exports = (robot) ->
     reloadPattern()
 
   robot.respond /react --reset/i, (res) ->
-    robot.brain.set('reactions', [])
+    reactions = robot.brain.get('reactions') * 1 or 0
+    if reactions > 0
+      for i in [0..reactions - 1]
+        robot.brain.remove("reactionPatterns#{i}")
+        robot.brain.remove("reactionMessages#{i}")
+        robot.brain.set "reactions", 0
+      res.reply "=== reset complete ==="
+      robot.brain.save()
+    loadedPatterns = {}
 
   robot.respond /react (.*) (.*)/i, (res) ->    
     pattern = res.match[1]
     response = res.match[2]
-    reactions = robot.brain.get('reactions') or []
-    reactions[pattern] = response
-    robot.brain.set 'reactions', reactions
+    reactions = robot.brain.get('reactions') * 1 or 0
+    robot.brain.set "reactionPatterns#{reactions}", pattern
+    robot.brain.set "reactionMessages#{reactions}", response
+    robot.brain.set 'reactions', reactions + 1
     robot.brain.save()
     reloadPattern()
     res.reply 'pettern has been set.'
