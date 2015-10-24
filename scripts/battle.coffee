@@ -32,7 +32,7 @@ module.exports = (robot) ->
     else
       entrys.push(entryName)
       robot.brain.set "battle-members", entrys
-      res.send "#{entryName} enter battle!"
+      res.send "#{entryName} entry battle!"
 
   robot.hear /^attack (.*)$/i, (res) ->
     myName = res.message.user.name
