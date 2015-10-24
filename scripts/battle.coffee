@@ -38,6 +38,10 @@ module.exports = (robot) ->
     myName = res.message.user.name
     enemyName = res.match[1].replace('@', '').replace(':', '')
     if checkEntry(myName) && checkEntry(enemyName)
+      if getHP(myName) == 0
+        res.send "Your HP is 0. Can't attack"
+        return
+
       beforeHP = getHP(enemyName)
       attackPoint = randomPoint(MAX_ATTACK_POINT)
       afterHP = beforeHP - attackPoint
@@ -54,6 +58,10 @@ module.exports = (robot) ->
     patientName = res.match[1].replace('@', '').replace(':', '')
 
     if checkEntry(doctorName) && checkEntry(patientName)
+      if getHP(doctorName) == 0
+        res.send "Your HP is 0. Can't hoimi"
+        return
+
       if doctorName == patientName
         res.send "Can't hoimi yourself"
         return
