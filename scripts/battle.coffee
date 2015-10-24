@@ -17,8 +17,22 @@ MAX_ATTACK_POINT = 100
 MAX_RECOVERY_POINT = 100
 
 module.exports = (robot) ->
-  robot.hear /^members$/i, (res) ->
-    res.send robot.brain.data.users
+  robot.hear /^battle members$/i, (res) ->
+    members = robot.brain.get("battle-members")
+    if members
+      res.send members
+    else
+      res.send "no entry"
+
+  robot.hear /^battle entry$/i, (res) ->
+    entryName = res.message.user.name
+    entrys = robot.brain.get("battle-members") or []
+    if entrys.indexOf(entryName) >= 0
+      res.send "#{entryName} already entry"
+    else
+      entrys.push(entryName)
+      robot.brain.set "battle-members", entrys
+      res.send "#{entryName} enter battle!"
 
   robot.hear /^attack (.*)$/i, (res) ->
     myName = res.message.user.name
