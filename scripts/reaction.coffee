@@ -33,11 +33,12 @@ module.exports = (robot) ->
         k = robot.brain.get("reactionPatterns#{i}")
         v = robot.brain.get("reactionMessages#{i}")
         if !loadedPatterns[k]
-          loadedPatterns[k] = true
+          loadedPatterns[k] = v
           register = () ->
             s = v
+            k_ = k
             robot.hear ///#{k}///, (res) ->
-              res.send s
+              res.send s if loadedPatterns[k_] == s
           register()
   reloadPattern()
 
