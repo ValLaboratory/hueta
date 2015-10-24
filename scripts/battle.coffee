@@ -14,6 +14,7 @@
 
 DEFAULT_HP = 100
 MAX_ATTACK_POINT = 100
+MAX_RECOVERY_POINT = 100
 
 module.exports = (robot) ->
   robot.hear /^attack (.*)$/i, (res) ->
@@ -29,6 +30,20 @@ module.exports = (robot) ->
     robot.brain.set enemyName, afterHP
     res.send "#{myName} attack #{attackPoint}"
     res.send "#{enemyName}'s HP is #{afterHP}"
+
+  robot.hear /^hoimi (.*)$/i, (res) ->
+    doctorName = res.message.user.name
+    patientName = res.match[1]
+
+    _beforeHP = robot.brain.get(patientName)
+    beforeHP = if toString.call(_beforeHP) == "[object Null]" then DEFAULT_HP else _beforeHP
+    recoveryPoint = randomPoint(MAX_RECOVERY_POINT)
+    afterHP = beforeHP + recoveryPoint
+    afterHP = DEFAULT_HP if afterHP > DEFAULT_HP
+
+    robot.brain.set patientName, afterHP
+    res.send "#{doctorName} hoimi #{recoveryPoint}"
+    res.send "#{patientName}'s HP is #{afterHP}"
 
 randomPoint = (maxPoint) ->
   Math.ceil(Math.pow(Math.random(), 20) * maxPoint)
