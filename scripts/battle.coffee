@@ -36,7 +36,7 @@ module.exports = (robot) ->
 
   robot.hear /^attack (.*)$/i, (res) ->
     myName = res.message.user.name
-    enemyName = res.match[1]
+    enemyName = res.match[1].replace('@', '').replace(':', '')
     if checkEntry(myName) && checkEntry(enemyName)
       beforeHP = getHP(enemyName)
       attackPoint = randomPoint(MAX_ATTACK_POINT)
@@ -51,7 +51,7 @@ module.exports = (robot) ->
 
   robot.hear /^hoimi (.*)$/i, (res) ->
     doctorName = res.message.user.name
-    patientName = res.match[1]
+    patientName = res.match[1].replace('@', '').replace(':', '')
 
     if checkEntry(doctorName) && checkEntry(patientName)
       beforeHP = getHP(patientName)
