@@ -18,8 +18,8 @@ MAX_RECOVERY_POINT = 100
 
 module.exports = (robot) ->
   robot.hear /^battle members$/i, (res) ->
-    members = robot.brain.get("battle-members")
-    if members
+    members = robot.brain.get("battle-members") or []
+    if members.length > 0
       res.send members
     else
       res.send "no entry"
