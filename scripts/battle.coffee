@@ -20,7 +20,10 @@ module.exports = (robot) ->
   robot.hear /^battle members$/i, (res) ->
     members = robot.brain.get("battle-members") or []
     if members.length > 0
-      res.send members
+      membersStatus = ""
+      members.forEach (member) ->
+        membersStatus += "#{member}: #{getHP(member)}"
+      res.send membersStatus
     else
       res.send "no entry"
 
