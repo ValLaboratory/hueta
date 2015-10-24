@@ -22,10 +22,13 @@ module.exports = (robot) ->
 
     _beforeHP = robot.brain.get(enemyName)
     beforeHP = if toString.call(_beforeHP) == "[object Null]" then DEFAULT_HP else _beforeHP
-    attackPoint = Math.ceil(Math.pow(Math.random(), 20) * MAX_ATTACK_POINT)
+    attackPoint = randomPoint(MAX_ATTACK_POINT)
     afterHP = beforeHP - attackPoint
     afterHP = 0 if afterHP < 0
 
     robot.brain.set enemyName, afterHP
     res.send "#{myName} attack #{attackPoint}"
     res.send "#{enemyName}'s HP is #{afterHP}"
+
+randomPoint = (maxPoint) ->
+  Math.ceil(Math.pow(Math.random(), 20) * maxPoint)
