@@ -23,5 +23,5 @@ module.exports = (robot) ->
     attackPoint = Math.ceil(Math.random() * MAX_ATTACK_POINT)
     afterHP = beforeHP - attackPoint
     robot.brain.set enemyName, afterHP
-    res.send "#{myName} attack! #{attackPoint}"
+    res.send "#{myName} attack #{attackPoint}"
     res.send "#{enemyName}'s HP is #{afterHP}"
