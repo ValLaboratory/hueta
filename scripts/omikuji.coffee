@@ -8,5 +8,5 @@ module.exports = (robot) ->
 
   fortunes = ['大吉', '特吉', '凶[°-°]凶']
   robot.hear /^((おみくじ)|(omikuji))$/i, (res) ->
-    res.send res.random fortunes
+    res.reply res.random fortunes
 
