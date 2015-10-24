@@ -37,14 +37,17 @@ module.exports = (robot) ->
   robot.hear /^attack (.*)$/i, (res) ->
     myName = res.message.user.name
     enemyName = res.match[1]
-    beforeHP = getHP(enemyName)
-    attackPoint = randomPoint(MAX_ATTACK_POINT)
-    afterHP = beforeHP - attackPoint
-    afterHP = 0 if afterHP < 0
+    if checkEntry(myName) && checkEntry(enemyName)
+      beforeHP = getHP(enemyName)
+      attackPoint = randomPoint(MAX_ATTACK_POINT)
+      afterHP = beforeHP - attackPoint
+      afterHP = 0 if afterHP < 0
 
-    robot.brain.set enemyName, afterHP
-    res.send "#{myName} attack #{attackPoint}"
-    res.send "#{enemyName}'s HP is #{afterHP}"
+      robot.brain.set enemyName, afterHP
+      res.send "#{myName} attack #{attackPoint}"
+      res.send "#{enemyName}'s HP is #{afterHP}"
+    else
+      res.send "no entry member"
 
   robot.hear /^hoimi (.*)$/i, (res) ->
     doctorName = res.message.user.name
@@ -66,6 +69,13 @@ module.exports = (robot) ->
       DEFAULT_HP
     else
       _HP
+
+  checkEntry = (memberName) ->
+    entrys = robot.brain.get("battle-members") or []
+    if entrys.indexOf(memberName) >= 0
+      true
+    else
+      false
 
 randomPoint = (maxPoint) ->
   Math.ceil(Math.pow(Math.random(), 20) * maxPoint)
