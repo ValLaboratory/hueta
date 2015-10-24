@@ -76,6 +76,6 @@ module.exports = (robot) ->
     robot.brain.set 'reactions', reactions + 1
     robot.brain.save()
     reloadPattern()
-    res.reply 'pettern has been set.'
+    res.reply 'pattern has been set.'
 
 
