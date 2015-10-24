@@ -39,7 +39,7 @@ module.exports = (robot) ->
             robot.hear ///#{k}///, (res) ->
               res.send s
           register()
-
+  reloadPattern()
 
   robot.respond /react --list/i, (res) ->
     reactions = robot.brain.get('reactions') * 1 or 0
