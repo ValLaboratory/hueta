@@ -10,11 +10,21 @@
 
 module.exports = (robot) ->
 
+  clone = (obj) ->
+    return obj  if obj is null or typeof (obj) isnt "object"
+    temp = new obj.constructor()
+    for key of obj
+      temp[key] = clone(obj[key])
+    temp
+
+  loadedPatterns = []
   reloadPattern = () ->
     reactions = robot.brain.get('reactions') or []
     for key, value of reactions
-      robot.hear ///#{key}///, (res) ->
-        res.send value
+      if !loadedPatterns[key]
+        loadedPatterns[key] = value
+        robot.hear ///#{key}///, (res) ->
+          res.send clone(value)
 
   robot.respond /react --list/i, (res) ->
     reactions = robot.brain.get('reactions') or []
