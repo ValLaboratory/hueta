@@ -29,6 +29,7 @@ module.exports = (robot) ->
     afterHP = 0 if afterHP < 0
 
     robot.brain.set enemyName, afterHP
+    robot.brain.save
     res.send "#{myName} attack #{attackPoint}"
     res.send "#{enemyName}'s HP is #{afterHP}"
 
@@ -42,6 +43,7 @@ module.exports = (robot) ->
     afterHP = DEFAULT_HP if afterHP > DEFAULT_HP
 
     robot.brain.set patientName, afterHP
+    robot.brain.save
     res.send "#{doctorName} hoimi #{recoveryPoint}"
     res.send "#{patientName}'s HP is #{afterHP}"
 
