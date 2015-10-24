@@ -48,7 +48,7 @@ module.exports = (robot) ->
     reactions = robot.brain.get('reactions') or []
     reactions[pattern] = response
     robot.brain.set 'reactions', reactions
-    robot.brain.save
+    robot.brain.save()
     reloadPattern()
     res.reply 'pettern has been set.'
 
