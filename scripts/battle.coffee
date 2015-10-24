@@ -22,7 +22,7 @@ module.exports = (robot) ->
     if members.length > 0
       membersStatus = ""
       members.forEach (member) ->
-        membersStatus += "#{member}: #{getHP(member)}"
+        membersStatus += "#{member}: #{getHP(member)}\n"
       res.send membersStatus
     else
       res.send "no entry"
