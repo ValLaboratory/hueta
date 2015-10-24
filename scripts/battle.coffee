@@ -53,14 +53,17 @@ module.exports = (robot) ->
     doctorName = res.message.user.name
     patientName = res.match[1]
 
-    beforeHP = getHP(patientName)
-    recoveryPoint = randomPoint(MAX_RECOVERY_POINT)
-    afterHP = beforeHP + recoveryPoint
-    afterHP = DEFAULT_HP if afterHP > DEFAULT_HP
+    if checkEntry(doctorName) && checkEntry(patientName)
+      beforeHP = getHP(patientName)
+      recoveryPoint = randomPoint(MAX_RECOVERY_POINT)
+      afterHP = beforeHP + recoveryPoint
+      afterHP = DEFAULT_HP if afterHP > DEFAULT_HP
 
-    robot.brain.set patientName, afterHP
-    res.send "#{doctorName} hoimi #{recoveryPoint}"
-    res.send "#{patientName}'s HP is #{afterHP}"
+      robot.brain.set patientName, afterHP
+      res.send "#{doctorName} hoimi #{recoveryPoint}"
+      res.send "#{patientName}'s HP is #{afterHP}"
+    else
+      res.send "no entry member"
 
   getHP = (personName) ->
     _HP = robot.brain.get(personName)
