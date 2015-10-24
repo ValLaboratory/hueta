@@ -17,6 +17,9 @@ MAX_ATTACK_POINT = 100
 MAX_RECOVERY_POINT = 100
 
 module.exports = (robot) ->
+  robot.hear /^members$/i, (res) ->
+    res.send robot.brain.data.users
+
   robot.hear /^attack (.*)$/i, (res) ->
     myName = res.message.user.name
     enemyName = res.match[1]
