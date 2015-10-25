@@ -12,11 +12,17 @@ module.exports = (robot) ->
     res.send suddenString(res.match[0])
 
 suddenString = (str) ->
+  # for balloon bottom
+  Ca = 0.41
+  Cb = 0.04
+
   strLength = str.enLength()
+  blnTopCount = Math.floor(strLength / 2)
+  blnBtmCount = Math.round(Ca * strLength + Cb)
   """
-  ＿人#{'人'.repeat(strLength / 2)}人＿
+  ＿人#{'人'.repeat(blnTopCount)}人＿
   ＞　#{str}　＜
-  ￣Y^#{'Y^'.repeat(strLength / 2)}Y￣
+  ￣Y^#{'Y^'.repeat(blnBtmCount)}Y￣
   """
 
 String.prototype.enLength = () ->
