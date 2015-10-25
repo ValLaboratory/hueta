@@ -16,7 +16,7 @@ suddenString = (str) ->
   """
   ＿人#{'人'.repeat(strLength / 2)}人＿
   ＞　#{str}　＜
-  ￣Y^#{'Y^'.repeat(strLength / 2)}Y^￣
+  ￣Y^#{'Y^'.repeat(strLength / 2)}Y￣
   """
 
 String.prototype.enLength = () ->
