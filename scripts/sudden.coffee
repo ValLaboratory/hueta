@@ -11,6 +11,9 @@ module.exports = (robot) ->
   robot.hear /^突然の(.*)$/i, (res) ->
     res.send suddenString(res.match[0])
 
+  robot.hear /^tz (.*)$/i, (res) ->
+    res.send suddenString(res.match[1])
+
 suddenString = (str) ->
   # for balloon bottom
   Ca = 0.41
