@@ -15,4 +15,4 @@ module.exports = (robot) ->
     else
       owners.push(newOwner)
       robot.brain.set "owners", owners
-      res.send "<!#{newOwner}> #{parentNickname}!"
+      res.send "@#{newOwner}: #{parentNickname}!"
