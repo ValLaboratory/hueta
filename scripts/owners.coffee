@@ -10,9 +10,13 @@ module.exports = (robot) ->
     parentNickname = res.match[1]
     newOwnerName = res.match[2].replace('@', '').replace(':', '')
     ownerIDs = robot.brain.get("ownerIDs") or []
-    if ownerIDs.indexOf(newOwnerName) >= 0
+    newOwnerID = getUserIDFromName(newOwnerName)
+    if ownerIDs.indexOf(newOwnerID) >= 0
       res.send "知ってるよ"
     else
-      ownerIDs.push(newOwnerName)
+      ownerIDs.push(newOwnerID)
       robot.brain.set "ownerIDs", ownerIDs
       res.send "@#{newOwnerName}: #{parentNickname}!"
+
+  getUserIDFromName = (userName) ->
+    userName
