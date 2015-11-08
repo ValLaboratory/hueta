@@ -10,6 +10,14 @@ module.exports = (robot) ->
     parentNickname = res.match[1]
     newOwnerName = res.match[2].replace('@', '').replace(':', '')
     ownerIDs = robot.brain.get("ownerIDs") or []
+
+    try
+      users = robot.brain.data.users
+      for key, value of users
+        res.send "#{key}: #{value.name}"
+    catch error
+      res.send error.message
+
     newOwnerID = getUserIDFromName(newOwnerName)
 
     if ownerIDs.indexOf(newOwnerID) >= 0
@@ -21,6 +29,8 @@ module.exports = (robot) ->
 
   getUserIDFromName = (userName) ->
     users = robot.brain.get("users")
+    throw "no users" unless users?
+
     for key, value of users
       if value.name == userName
         return key
