@@ -8,6 +8,11 @@
 module.exports = (robot) ->
   robot.respond /新しい(お父さん|お母さん)だ?よ (.*)$/i, (res) ->
     try
+      requestUser = res.message.user.name
+      unless isOwnerName(requestUser)
+        res.reply "怪しい人だ"
+        return
+
       parentNickname = res.match[1]
       newOwnerName = res.match[2].replace('@', '').replace(':', '')
       ownerIDs = robot.brain.get("ownerIDs") or []
