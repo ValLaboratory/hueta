@@ -32,3 +32,8 @@ module.exports = (robot) ->
     for key, value of users
       if value.name == userName
         return key
+
+  isOwnerName = (userName) ->
+    userID = getUserIDFromName(userName)
+    ownerIDs = robot.brain.get("ownerIDs")
+    return ownerIDs.indexOf(userID) >= 0
