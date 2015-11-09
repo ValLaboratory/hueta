@@ -13,7 +13,9 @@ module.exports = (robot) ->
       ownerIDs = robot.brain.get("ownerIDs") or []
       newOwnerID = getUserIDFromName(newOwnerName)
 
-      if ownerIDs.indexOf(newOwnerID) >= 0
+      unless newOwnerID?
+        res.send "@#{newOwnerName}: だれやねん"
+      else if ownerIDs.indexOf(newOwnerID) >= 0
         res.send "知ってるよ"
       else
         ownerIDs.push(newOwnerID)
