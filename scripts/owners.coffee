@@ -32,13 +32,17 @@ module.exports = (robot) ->
 
   getUserIDFromName = (userName) ->
     users = robot.brain.data.users
-    throw "users: #{users}" unless users?
-
+    unless users?
+      return false
     for key, value of users
       if value.name == userName
         return key
+    return false
 
   isOwnerName = (userName) ->
     userID = getUserIDFromName(userName)
     ownerIDs = robot.brain.get("ownerIDs")
-    return ownerIDs.indexOf(userID) >= 0
+    if ownerIDs
+      return ownerIDs.indexOf(userID) >= 0
+    else
+      return false
