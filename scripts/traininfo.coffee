@@ -4,14 +4,17 @@ module.exports = (robot) ->
   traininfoURL = "#{traininfoEndpoint}/information"
   traininfoListURL = "#{traininfoEndpoint}/list"
 
-  robot.respond /traininfo list$/i, (msg) ->
-    robot.http(traininfoListURL)
-      .query(key: traininfoKey)
-      .get() (err, res, body) ->
-        json = JSON.parse body
-        corpList = json.ResultSet.Corporation
-        trainList = json.ResultSet.Line
-        corps_str = "corps ==="
-        for corp in corpList
-          corps_str += "  #{corp.Name}"
-        msg.send "#{corps_str}"
+  robot.respond /traininfo list( (.*))?$/i, (msg) ->
+    reqCorp = msg.match[1]
+    unless reqCorp?
+      robot.http(traininfoListURL)
+        .query(key: traininfoKey)
+        .get() (err, res, body) ->
+          json = JSON.parse body
+          corpList = json.ResultSet.Corporation
+          trainList = json.ResultSet.Line
+          corps_str = "corps ==="
+          for corp in corpList
+            corps_str += "  #{corp.Name}"
+          msg.send "#{corps_str}"
+
