@@ -9,5 +9,9 @@ module.exports = (robot) ->
       .query(key: traininfoKey)
       .get() (err, res, body) ->
         json = JSON.parse body
+        corpList = json.ResultSet.Corporation
         trainList = json.ResultSet.Line
-        msg.send trainList[0].Name
+        corps_str = "corps ==="
+        for corp in corpList
+          corps_str += "  #{corp.Name}"
+        msg.send "#{corps_str}"
