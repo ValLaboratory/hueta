@@ -16,7 +16,6 @@ module.exports = (robot) ->
           for corp in corpList
             corps_str += "#{corp.Name}  "
           msg.send "#{corps_str}"
-
     else
       reqCorp = reqCorp.replace(" ", "")
       robot.http(traininfoListURL)
