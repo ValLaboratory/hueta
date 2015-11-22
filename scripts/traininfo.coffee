@@ -18,3 +18,16 @@ module.exports = (robot) ->
             corps_str += "  #{corp.Name}"
           msg.send "#{corps_str}"
 
+    else
+      reqCorp = reqCorp.replace(" ", "")
+      robot.http(traininfoListURL)
+        .query(key: traininfoKey, corporationName: reqCorp)
+        .get() (err, res, body) ->
+          robot.logger.info reqCorp
+          robot.logger.info body
+          json = JSON.parse body
+          trainList = json.ResultSet.Line
+          train_str = "#{reqCorp} ===\n"
+          for train in trainList
+            train_str += "#{train.Name}  "
+          msg.send train_str
