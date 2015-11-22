@@ -12,7 +12,6 @@ module.exports = (robot) ->
         .get() (err, res, body) ->
           json = JSON.parse body
           corpList = json.ResultSet.Corporation
-          trainList = json.ResultSet.Line
           corps_str = "corps ==="
           for corp in corpList
             corps_str += "  #{corp.Name}"
