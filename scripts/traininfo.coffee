@@ -12,9 +12,9 @@ module.exports = (robot) ->
         .get() (err, res, body) ->
           json = JSON.parse body
           corpList = json.ResultSet.Corporation
-          corps_str = "corps ==="
+          corps_str = "corps ===\n"
           for corp in corpList
-            corps_str += "  #{corp.Name}"
+            corps_str += "#{corp.Name}  "
           msg.send "#{corps_str}"
 
     else
