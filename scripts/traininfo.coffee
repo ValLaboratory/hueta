@@ -21,8 +21,6 @@ module.exports = (robot) ->
       robot.http(traininfoListURL)
         .query(key: traininfoKey, corporationName: reqCorp)
         .get() (err, res, body) ->
-          robot.logger.info reqCorp
-          robot.logger.info body
           json = JSON.parse body
           trainList = json.ResultSet.Line
           train_str = "#{reqCorp} ===\n"
