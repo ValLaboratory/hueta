@@ -4,7 +4,7 @@ module.exports = (robot) ->
   traininfoURL = "#{traininfoEndpoint}/information"
   traininfoListURL = "#{traininfoEndpoint}/list"
 
-  robot.respond /traininfo list( (.*))?$/i, (msg) ->
+  robot.respond /trainlist( (.*))?$/i, (msg) ->
     reqCorp = msg.match[1]
     unless reqCorp?
       robot.http(traininfoListURL)
