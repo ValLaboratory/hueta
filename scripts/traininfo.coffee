@@ -36,8 +36,11 @@ module.exports = (robot) ->
           json = JSON.parse body
           trainList = json.ResultSet.Line
           train_str = "#{reqCorp} ===\n"
-          for train in trainList
-            train_str += "#{train.Name}  "
+          if Array.isArray(trainList)
+            for train in trainList
+              train_str += "#{train.Name}  "
+          else
+            train_str += trainList.Name
           msg.send train_str
 
   robot.respond /traininfo (.*)$/i, (msg) ->
