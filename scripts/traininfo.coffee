@@ -10,6 +10,12 @@ module.exports = (robot) ->
       robot.http(traininfoListURL)
         .query(key: traininfoKey)
         .get() (err, res, body) ->
+          if err
+            msg.send "何かおかしいよ\n#{err}"
+            return
+          if res.statusCode isnt 200
+            msg.send "OKって言えないみたいね"
+            return
           json = JSON.parse body
           corpList = json.ResultSet.Corporation
           corps_str = "corps ===\n"
@@ -21,6 +27,12 @@ module.exports = (robot) ->
       robot.http(traininfoListURL)
         .query(key: traininfoKey, corporationName: reqCorp)
         .get() (err, res, body) ->
+          if err
+            msg.send "何かおかしいよ\n#{err}"
+            return
+          if res.statusCode isnt 200
+            msg.send "OKって言えないみたいね"
+            return
           json = JSON.parse body
           trainList = json.ResultSet.Line
           train_str = "#{reqCorp} ===\n"
