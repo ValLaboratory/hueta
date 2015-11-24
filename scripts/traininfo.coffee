@@ -43,26 +43,25 @@ module.exports = (robot) ->
             train_str += trainList.Name
           msg.send train_str
 
-  robot.respond /traininfo (.*)$/i, (msg) ->
-    reqLine = msg.match[1].replace(" ", "")
+  robot.respond /traininfo (.*)$/i, (res) ->
+    reqLine = res.match[1].replace(" ", "")
+    res.send getTraininfo(reqLine)
+
+  getTraininfo = (lineName) ->
     robot.http(traininfoURL)
-      .query(key: traininfoKey, railName: reqLine)
+      .query(key: traininfoKey, railName: lineName)
       .get() (err, res, body) ->
-        if err
-          msg.send "何かおかしいよ\n#{err}"
-          return
-        if res.statusCode isnt 200
-          msg.send "OKって言えないみたいね"
-          return
+        return "何かおかしいよ\n#{err}" if err
+        return "OKって言えないみたいね" if res.statusCode isnt 200
+
         json = JSON.parse body
         info = json.ResultSet.Information
-        unless info?
-          msg.send "#{reqLine}の情報はないよ"
-          return
+        return "#{lineName}の情報はないよ" unless info?
+
         if Array.isArray(info)
-          info_str = ""
+          infoStr = ""
           for i in info
-            info_str += "#{i.Comment[0].text}\n"
-          msg.send info_str
+            infoStr += "#{i.Comment[0].text}\n"
+          return infoStr
         else
-          msg.send info.Comment[0].text
+          return info.Comment[0].text
