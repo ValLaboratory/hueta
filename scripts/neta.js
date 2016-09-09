@@ -1,21 +1,15 @@
-# Description:
-#   文字入れ替えネタ生成
-#
-# Notes:
-#   あとでかくかも
+// Description:
+//   文字入れ替えネタ生成
+//
+// Notes:
+//   あとでかくかも
 
 module.exports = function (robot) {
   robot.hear(/^(.*)  neta$/i, function (res) {
     res.reply(switchSentence(RegExp.$1));
-  })
+  });
 }
 
-function event::onChannelText(prefix, channel, text) {
-  if (text.match(/^(.*)  neta$/)) {
-    send(channel, switchSentence(RegExp.$1));
-  };
-}
- 
 function switchSentence (text) {
   var splitted_text = text.split("  ");
   var params = splitted_text[1].split(",");
