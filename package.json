@@ -5,6 +5,7 @@
   "author": "soeda@val.co.jp",
   "description": "A simple helpful robot for your Company",
   "dependencies": {
+    "cron": "",
     "hubot-maps": "0.0.2",
     "hubot-shipit": "~0.2.0",
     "hubot-help": "~0.1.1",

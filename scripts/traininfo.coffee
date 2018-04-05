@@ -1,3 +1,12 @@
+# Description:
+#  @hueta traininfo list
+#  @hueta traininfo list ＪＲ
+#  @hueta traininfo ＪＲ東海道本線(東京－熱海)
+#
+# Notes:
+#   突然の文字列
+#
+
 module.exports = (robot) ->
   traininfoEndpoint = process.env.HUBOT_TRAININFO_ENDPOINT
   traininfoKey = process.env.HUBOT_TRAININFO_KEY
@@ -45,9 +54,12 @@ module.exports = (robot) ->
 
   robot.respond /traininfo (.*)$/i, (res) ->
     reqLine = res.match[1].replace(" ", "")
-    res.send getTraininfo(reqLine)
+    result = getTraininfo(reqLine, sendResult)
+    sendResult = () ->
+      robot.logger.info result
+      res.send result
 
-  getTraininfo = (lineName) ->
+  getTraininfo = (lineName, callback) ->
     robot.http(traininfoURL)
       .query(key: traininfoKey, railName: lineName)
       .get() (err, res, body) ->
@@ -65,3 +77,5 @@ module.exports = (robot) ->
           return infoStr
         else
           return info.Comment[0].text
+
+        callback
